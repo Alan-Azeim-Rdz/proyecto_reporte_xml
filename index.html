@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Perfil de Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input,
+        select,
+        button {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Evaluación de Perfil</h1>
+        <h3>Por favor, completa los siguientes datos para generar tu reporte.</h3>
+        <form action="insert.php" method="POST">
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" min="1" max="120" placeholder="Ingresa tu edad" required>
+
+            <label for="genero">Género:</label>
+            <select id="genero" name="genero" required>
+                <option value="">Selecciona una opción...</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="No binario">No binario</option>
+                <option value="Prefiero no decir">Prefiero no decir</option>
+            </select>
+
+            <label for="nivel_estudio">Nivel educativo actual:</label>
+            <select id="nivel_estudio" name="nivel_estudio" required>
+                <option value="">Selecciona una opción...</option>
+                <option value="Básica / Primaria">Básica / Primaria</option>
+                <option value="Media / Secundaria">Media / Secundaria</option>
+                <option value="Superior / Universitaria">Superior / Universitaria</option>
+                <option value="Postgrado">Postgrado</option>
+            </select>
+
+            <label for="area_interes">Área de interés principal:</label>
+            <select id="area_interes" name="area_interes" required>
+                <option value="">Selecciona una opción...</option>
+                <option value="Tecnología e Informática">Tecnología e Informática</option>
+                <option value="Artes y Humanidades">Artes y Humanidades</option>
+                <option value="Ciencias de la Salud">Ciencias de la Salud</option>
+                <option value="Negocios y Finanzas">Negocios y Finanzas</option>
+            </select>
+
+            <button type="submit">Enviar Respuestas y Generar Reporte</button>
+        </form>
+    </div>
+</body>
+
+</html>

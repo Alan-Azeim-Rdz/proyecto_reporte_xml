@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS reporte_db;
+USE reporte_db;
+
+CREATE TABLE IF NOT EXISTS encuestas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    edad INT NOT NULL,
+    genero VARCHAR(50) NOT NULL,
+    nivel_estudio VARCHAR(100) NOT NULL,
+    area_interes VARCHAR(100) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
