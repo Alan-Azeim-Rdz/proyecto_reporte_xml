@@ -2,19 +2,33 @@
 require 'db_config.php';
 
 $sql = "SELECT id, nombre, edad, genero, nivel_estudio, area_interes, fecha_registro FROM encuestas";
+$id = 0;
+$result = null;
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = intval($_GET['id']);
-    $sql .= " WHERE id = $id";
+    $stmt = $conn->prepare($sql . " WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query($sql);
 }
 
-$result = $conn->query($sql);
+// Mapeo de recomendaciones (Recomendación Senior: Escalabilidad)
+$recomendaciones_map = [
+    "Tecnología e Informática" => "Recomendamos cursos de programación y análisis de datos.",
+    "Artes y Humanidades" => "Recomendamos talleres de diseño gráfico y escritura creativa.",
+    "Ciencias de la Salud" => "Recomendamos seminarios sobre bienestar y medicina preventiva.",
+    "Negocios y Finanzas" => "Recomendamos cursos de administración y emprendimiento."
+];
 
 $xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 $xmlContent .= "<reporte_perfiles>\n";
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $id = htmlspecialchars($row['id']);
+        $id_row = htmlspecialchars($row['id']);
         $nombre = htmlspecialchars($row['nombre']);
         $edad = htmlspecialchars($row['edad']);
         $genero = htmlspecialchars($row['genero']);
@@ -22,19 +36,10 @@ if ($result && $result->num_rows > 0) {
         $interes = htmlspecialchars($row['area_interes']);
         $fecha = htmlspecialchars($row['fecha_registro']);
 
-        // Lógica de recomendación
-        $recomendacion = "";
-        if ($row['area_interes'] == "Tecnología e Informática") {
-            $recomendacion = "Recomendamos cursos de programación y análisis de datos.";
-        } elseif ($row['area_interes'] == "Artes y Humanidades") {
-            $recomendacion = "Recomendamos talleres de diseño gráfico y escritura creativa.";
-        } elseif ($row['area_interes'] == "Ciencias de la Salud") {
-            $recomendacion = "Recomendamos seminarios sobre bienestar y medicina preventiva.";
-        } else {
-            $recomendacion = "Recomendamos cursos de administración y emprendimiento.";
-        }
+        // Obtener recomendación del mapa o usar default
+        $recomendacion = $recomendaciones_map[$row['area_interes']] ?? "Recomendamos explorar diversas áreas para definir tu perfil.";
 
-        $xmlContent .= "  <perfil_usuario id=\"$id\">\n";
+        $xmlContent .= "  <perfil_usuario id=\"$id_row\">\n";
         $xmlContent .= "    <datos_personales>\n";
         $xmlContent .= "      <nombre>$nombre</nombre>\n";
         $xmlContent .= "      <edad>$edad</edad>\n";
